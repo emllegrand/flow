@@ -1,30 +1,63 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'dart:io';
 
+import 'package:flow/core/theme/theme_flow.dart';
+import 'package:flow/features/home/presentation/ecran_principal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-import 'package:flow/main.dart';
-
+/// Test de fumée : l'écran principal se construit, les cinq onglets
+/// sont là et la navigation fonctionne.
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  setUpAll(() async {
+    // Pas de réseau dans les tests : Google Fonts retombe sur les
+    // polices de substitution.
+    GoogleFonts.config.allowRuntimeFetching = false;
+    final Directory dossier = Directory.systemTemp.createTempSync('flow_ui');
+    Hive.init(dossier.path);
+    await Hive.openBox<dynamic>('reglages');
+    await Hive.openBox<dynamic>('historique');
+    await initializeDateFormatting('fr_FR');
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('l\'écran principal affiche les cinq onglets',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          theme: ThemeFlow.clair(),
+          locale: const Locale('fr'),
+          supportedLocales: const [Locale('fr')],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: const EcranPrincipal(),
+        ),
+      ),
+    );
+    // Les apparitions sont lentes : on laisse le temps aux fondus.
+    await tester.pump(const Duration(seconds: 3));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Chaque libellé d'onglet est présent (les écrans restant montés
+    // dans la pile fondue, certains textes existent aussi en titre).
+    expect(find.text('Accueil'), findsAtLeastNWidgets(1));
+    expect(find.text('Respirer'), findsAtLeastNWidgets(1));
+    expect(find.text('Séances'), findsAtLeastNWidgets(1));
+    expect(find.text('Sons'), findsAtLeastNWidgets(1));
+    expect(find.text('Suivi'), findsAtLeastNWidgets(1));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Navigation vers l'onglet Respirer (le libellé de la barre basse
+    // est le dernier dans l'arbre).
+    await tester.tap(find.text('Respirer').last);
+    await tester.pump(const Duration(seconds: 2));
+    // Les rythmes proposés sont visibles en tête de liste.
+    expect(find.text('Cohérence cardiaque'), findsWidgets);
+    expect(find.text('Respiration 4-7-8'), findsWidgets);
   });
 }

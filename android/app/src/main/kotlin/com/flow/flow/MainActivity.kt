@@ -1,5 +1,6 @@
 package com.flow.flow
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 
-class MainActivity : FlutterActivity()
+// Étend AudioServiceActivity pour que la lecture audio continue en arrière-plan
+class MainActivity : AudioServiceActivity()
