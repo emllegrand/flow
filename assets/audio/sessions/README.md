@@ -18,3 +18,15 @@ Noms de fichiers attendus par le catalogue (`lib/features/sessions/data/catalogu
 Si un fichier est absent, l'écran de lecture l'indique calmement (aucun plantage).
 La durée affichée dans la bibliothèque vient du catalogue ; la durée réelle vient
 du fichier une fois chargé.
+
+## Génération d'une première version
+
+`python tools/generer_voix.py` synthétise les huit séances : voix neurale
+française (edge-tts, gratuite), débit ralenti, silences calibrés entre les
+consignes pour atteindre la durée cible de chaque séance. Les textes sont
+dans `tools/voix/textes/` — modifiez-les puis relancez le script
+(`python tools/generer_voix.py sommeil_profond` pour une seule séance,
+`--voix fr-FR-HenriNeural` pour une voix masculine).
+
+Pour une version finale, remplacez ces fichiers par de vrais enregistrements
+(voix humaine, ou TTS premium type ElevenLabs) en gardant les mêmes noms.
