@@ -75,6 +75,7 @@ flutter:
   # voir les README dans chaque dossier pour les noms attendus.
   assets:
     - assets/audio/ambiance/
+    - assets/audio/respiration/
     - assets/audio/sessions/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -22,6 +22,7 @@ Les fichiers audio ne sont **pas inclus**. Déposez vos propres fichiers
 (MP3/OGG/M4A) dans :
 
 - `assets/audio/ambiance/` — sons d'ambiance (pluie, vagues, forêt…)
+- `assets/audio/respiration/` — souffles et son cristallin de la bulle
 - `assets/audio/sessions/` — voix des séances guidées
 
 Les noms de fichiers attendus sont documentés dans le **README de chaque
@@ -33,7 +34,8 @@ et désactive sa lecture (aucun plantage). Après dépôt, relancez `flutter run
 
 - **Respiration** — bulle animée guidant cohérence cardiaque (5-5),
   4-7-8, respiration carrée (4-4-4-4) et rythme personnalisé ; minuteur de
-  séance, compteur de cycles, retour haptique léger optionnel.
+  séance, compteur de cycles, retour haptique léger optionnel, souffles et
+  son cristallin optionnels accompagnant la bulle.
 - **Séances guidées** — bibliothèque classée par durée, filtrable par objectif,
   écran de lecture complet (progression, ±15 s, lecture en arrière-plan).
 - **Sons d'ambiance** — mixeur multi-pistes : chaque son a son volume

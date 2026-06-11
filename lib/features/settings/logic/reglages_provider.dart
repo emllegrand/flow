@@ -31,6 +31,9 @@ class ReglagesNotifier extends Notifier<ReglagesApp> {
   void changerHaptique(bool active) =>
       _appliquer(state.copyWith(haptiqueActive: active));
 
+  void changerSonsRespiration(bool actifs) =>
+      _appliquer(state.copyWith(sonsRespirationActifs: actifs));
+
   /// Active ou coupe le rappel quotidien. Demande la permission si besoin ;
   /// renvoie `false` si elle est refusée (le rappel reste inactif).
   Future<bool> changerRappel(bool actif) async {

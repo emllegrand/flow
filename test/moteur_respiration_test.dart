@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flow/core/services/sons_respiration.dart';
 import 'package:flow/features/breathing/data/rythme_respiration.dart';
 import 'package:flow/features/breathing/logic/moteur_respiration.dart';
 import 'package:flow/features/tracking/logic/historique_provider.dart';
@@ -25,7 +26,13 @@ void main() {
   setUp(() async {
     await Hive.box<dynamic>('reglages').clear();
     await Hive.box<dynamic>('historique').clear();
-    conteneur = ProviderContainer();
+    // Pas de plateforme audio dans les tests : service de sons inerte.
+    conteneur = ProviderContainer(
+      overrides: [
+        sonsRespirationProvider
+            .overrideWithValue(SonsRespirationService.desactive()),
+      ],
+    );
   });
 
   tearDown(() {

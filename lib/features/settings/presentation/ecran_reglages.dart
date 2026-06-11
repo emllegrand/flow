@@ -82,22 +82,49 @@ class EcranReglages extends ConsumerWidget {
                 rang: 2,
                 enfant: _Section(
                   titre: 'PRATIQUE',
-                  enfant: SwitchListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text('Retour haptique', style: typo.titleMedium),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        'Une impulsion légère à chaque changement de phase '
-                        'respiratoire.',
-                        style: typo.bodySmall,
+                  enfant: Column(
+                    children: [
+                      SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          'Retour haptique',
+                          style: typo.titleMedium,
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            'Une impulsion légère à chaque changement de '
+                            'phase respiratoire.',
+                            style: typo.bodySmall,
+                          ),
+                        ),
+                        value: reglages.haptiqueActive,
+                        onChanged: (v) {
+                          if (v) HaptiqueService.selection();
+                          notifier.changerHaptique(v);
+                        },
                       ),
-                    ),
-                    value: reglages.haptiqueActive,
-                    onChanged: (v) {
-                      if (v) HaptiqueService.selection();
-                      notifier.changerHaptique(v);
-                    },
+                      SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          'Sons de respiration',
+                          style: typo.titleMedium,
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            'Un souffle discret accompagne la bulle, '
+                            'un son cristallin marque chaque inversion.',
+                            style: typo.bodySmall,
+                          ),
+                        ),
+                        value: reglages.sonsRespirationActifs,
+                        onChanged: (v) {
+                          if (v) HaptiqueService.selection();
+                          notifier.changerSonsRespiration(v);
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),

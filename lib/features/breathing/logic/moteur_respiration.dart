@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/services/haptique_service.dart';
+import '../../../core/services/sons_respiration.dart';
 import '../../settings/logic/reglages_provider.dart';
 import '../../tracking/data/entree_historique.dart';
 import '../../tracking/logic/historique_provider.dart';
@@ -137,6 +138,8 @@ class MoteurRespirationNotifier extends Notifier<EtatRespiration> {
   void mettreEnPause() {
     if (state.statut != StatutRespiration.enCours) return;
     _arreterMinuteur();
+    // Les souffles s'estompent ; ils reprendront à la prochaine phase.
+    unawaited(ref.read(sonsRespirationProvider).couper());
     state = state.copyWith(statut: StatutRespiration.enPause);
   }
 
@@ -150,6 +153,7 @@ class MoteurRespirationNotifier extends Notifier<EtatRespiration> {
   /// si elle a duré au moins une minute.
   void arreter() {
     _arreterMinuteur();
+    unawaited(ref.read(sonsRespirationProvider).couper());
     if (state.secondesEcoulees >= 60) _enregistrerPratique();
     state = EtatRespiration(
       statut: StatutRespiration.reposee,
@@ -190,7 +194,7 @@ class MoteurRespirationNotifier extends Notifier<EtatRespiration> {
         phase: PhaseRespiration.inspiration,
         tempsDansPhase: 0,
       );
-      _haptique();
+      _signalerPhase(PhaseRespiration.inspiration);
     } else {
       state = state.copyWith(tempsDansPhase: temps);
     }
@@ -219,7 +223,7 @@ class MoteurRespirationNotifier extends Notifier<EtatRespiration> {
         }
       }
       phase = suivante;
-      _haptique();
+      _signalerPhase(suivante);
     }
 
     state = state.copyWith(
@@ -239,6 +243,10 @@ class MoteurRespirationNotifier extends Notifier<EtatRespiration> {
       tempsDansPhase: 0,
       phase: PhaseRespiration.inspiration,
     );
+    // Le son cristallin seul salue la fin de la séance.
+    if (ref.read(reglagesProvider).sonsRespirationActifs) {
+      unawaited(ref.read(sonsRespirationProvider).jouerFin());
+    }
     _enregistrerPratique();
   }
 
@@ -274,9 +282,17 @@ class MoteurRespirationNotifier extends Notifier<EtatRespiration> {
     return suivante;
   }
 
-  void _haptique() {
-    if (ref.read(reglagesProvider).haptiqueActive) {
+  /// Accompagne l'entrée dans une nouvelle phase : impulsion haptique
+  /// et sons de la bulle, chacun selon son réglage.
+  void _signalerPhase(PhaseRespiration phase) {
+    final reglages = ref.read(reglagesProvider);
+    if (reglages.haptiqueActive) {
       HaptiqueService.souffle();
+    }
+    if (reglages.sonsRespirationActifs) {
+      unawaited(
+        ref.read(sonsRespirationProvider).jouerTransition(phase, _dureeDe(phase)),
+      );
     }
   }
 

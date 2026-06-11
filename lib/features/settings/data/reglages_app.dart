@@ -5,6 +5,7 @@ class ReglagesApp {
   const ReglagesApp({
     this.modeTheme = ThemeMode.system,
     this.haptiqueActive = true,
+    this.sonsRespirationActifs = true,
     this.rappelActif = false,
     this.rappelMinutes = 20 * 60, // 20 h — un rappel du soir par défaut
   });
@@ -14,6 +15,9 @@ class ReglagesApp {
 
   /// Retour haptique léger aux transitions de respiration.
   final bool haptiqueActive;
+
+  /// Souffles et son cristallin qui accompagnent la bulle de respiration.
+  final bool sonsRespirationActifs;
 
   /// Rappel quotidien de pratique.
   final bool rappelActif;
@@ -27,12 +31,15 @@ class ReglagesApp {
   ReglagesApp copyWith({
     ThemeMode? modeTheme,
     bool? haptiqueActive,
+    bool? sonsRespirationActifs,
     bool? rappelActif,
     int? rappelMinutes,
   }) {
     return ReglagesApp(
       modeTheme: modeTheme ?? this.modeTheme,
       haptiqueActive: haptiqueActive ?? this.haptiqueActive,
+      sonsRespirationActifs:
+          sonsRespirationActifs ?? this.sonsRespirationActifs,
       rappelActif: rappelActif ?? this.rappelActif,
       rappelMinutes: rappelMinutes ?? this.rappelMinutes,
     );
@@ -41,6 +48,7 @@ class ReglagesApp {
   Map<String, dynamic> versMap() => {
         'modeTheme': modeTheme.name,
         'haptiqueActive': haptiqueActive,
+        'sonsRespirationActifs': sonsRespirationActifs,
         'rappelActif': rappelActif,
         'rappelMinutes': rappelMinutes,
       };
@@ -50,6 +58,7 @@ class ReglagesApp {
       modeTheme: ThemeMode.values.asNameMap()[map['modeTheme']] ??
           ThemeMode.system,
       haptiqueActive: map['haptiqueActive'] as bool? ?? true,
+      sonsRespirationActifs: map['sonsRespirationActifs'] as bool? ?? true,
       rappelActif: map['rappelActif'] as bool? ?? false,
       rappelMinutes: map['rappelMinutes'] as int? ?? 20 * 60,
     );
