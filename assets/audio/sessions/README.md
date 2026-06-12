@@ -9,7 +9,7 @@ Noms de fichiers attendus par le catalogue (`lib/features/sessions/data/catalogu
 | `respiration_decouverte.mp3` | Découvrir sa respiration      | ~5 min      |
 | `scan_corporel.mp3`        | Scan corporel                   | ~15 min     |
 | `sommeil_profond.mp3`      | Vers un sommeil profond         | ~20 min     |
-| `pause_express.mp3`        | Pause express                   | ~3 min      |
+| `pause_express.mp3`        | Pause express                   | ~4 min      |
 | `ancrage_matin.mp3`        | Ancrage du matin                | ~10 min     |
 | `lacher_prise.mp3`         | Lâcher-prise                    | ~12 min     |
 | `concentration_calme.mp3`  | Concentration calme             | ~10 min     |

@@ -43,10 +43,10 @@ abstract final class CatalogueSeances {
     SeanceGuidee(
       id: 'pause_express',
       titre: 'Pause express',
-      description: 'Trois minutes pour déposer ce qui pèse, '
+      description: 'Quatre minutes pour déposer ce qui pèse, '
           'où que vous soyez.',
       objectif: ObjectifSeance.stress,
-      dureeMinutes: 3,
+      dureeMinutes: 4,
       fichier: 'assets/audio/sessions/pause_express.mp3',
     ),
     SeanceGuidee(
