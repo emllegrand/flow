@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/services/haptique_service.dart';
+import '../../../core/theme/marque_flow.dart';
 import '../../../shared/widgets/apparition.dart';
 import '../../../shared/widgets/carte_zen.dart';
 import '../../../shared/widgets/fond_anime.dart';
+import '../../../shared/widgets/logo_flow.dart';
 import '../../tracking/logic/historique_provider.dart';
 import '../data/reglages_app.dart';
 import '../logic/reglages_provider.dart';
@@ -233,8 +235,18 @@ class EcranReglages extends ConsumerWidget {
                   enfant: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Flow', style: typo.titleMedium),
-                      const SizedBox(height: 4),
+                      LockupFlowHorizontal(
+                        echelle: 0.7,
+                        variante:
+                            Theme.of(context).brightness == Brightness.dark
+                            ? VarianteLogo.surNuit
+                            : VarianteLogo.surCreme,
+                        couleurMot:
+                            Theme.of(context).brightness == Brightness.dark
+                            ? MarqueFlow.creme
+                            : MarqueFlow.nuitEncre,
+                      ),
+                      const SizedBox(height: 18),
                       Text(
                         'Méditation et respiration, dans le calme.\n'
                         'Les sons d\'ambiance et les voix des séances sont '

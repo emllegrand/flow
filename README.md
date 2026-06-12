@@ -66,6 +66,23 @@ lib/
   main.dart       # initialisation des services puis ProviderScope
 ```
 
+## Marque — « la goutte-feuille »
+
+L'identité visuelle (logo goutte-feuille, mot « Flow » en Cormorant Garamond,
+interface en Outfit) vient de la planche de marque livrée par le design.
+
+- `assets/marque/` — SVG de production du repère et README des appariements
+  de couleurs (fond / corps / nervure).
+- `lib/core/theme/marque_flow.dart` — tokens de marque (couleurs, géométrie,
+  interlettrages).
+- `lib/shared/widgets/logo_flow.dart` — le repère (`LogoFlow`, CustomPainter)
+  et les verrouillages (`LockupFlowHorizontal`, `LockupFlowEmpile`).
+- `outils/generer_icones.py` — régénère les `ic_launcher.png` hérités et le
+  verrouillage de l'écran de lancement (repère + mot « Flow » en Cormorant
+  Garamond 600, fonte dans `outils/polices/` ; Pillow requis). L'icône adaptative
+  (API 26+) est un vector drawable : `ic_launcher_foreground.xml`,
+  fond nuit `#0d1a2b`, calque monochrome pour Android 13+.
+
 ## Choix techniques
 
 - **Riverpod** (`Notifier`/`Provider`) : toute la logique métier vit dans les

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Calque monochrome (icône thématique Android 13+) : le corps seul,
+     sans nervure, conformément à la planche de marque. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.32452"
+        android:scaleY="0.32452"
+        android:translateX="37.125"
+        android:translateY="34.529">
+        <path
+            android:fillColor="#FFECE7DA"
+            android:pathData="M52 8 C24 40 14 64 14 80 a38 38 0 0 0 76 0 C90 64 80 40 52 8 Z"/>
+    </group>
+</vector>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Écran de lancement clair : fond sable, goutte-feuille centrée. -->
+<!-- Écran de lancement sombre : fond nuit, goutte-feuille centrée. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/fond_lancement" />
+    <item android:drawable="@color/fond_lancement_nuit" />
 
     <item>
         <bitmap

@@ -8,10 +8,11 @@ import 'palette_flow.dart';
 /// Le mode sombre est conçu à part (indigo profond, encres sable),
 /// ce n'est pas une inversion du mode clair.
 abstract final class ThemeFlow {
-  /// Typographie : Cormorant Garamond pour les titres (élégance calligraphique),
-  /// Karla pour le corps (lisibilité épurée).
+  /// Typographie de marque : Cormorant Garamond pour les titres et le
+  /// mot « Flow » (élégance calligraphique), Outfit pour l'interface
+  /// et les taglines (géométrique, léger) — cf. planche de marque.
   static TextTheme _typographie(Color encre, Color encreDouce) {
-    final TextTheme corps = GoogleFonts.karlaTextTheme();
+    final TextTheme corps = GoogleFonts.outfitTextTheme();
     final TextTheme titres = GoogleFonts.cormorantGaramondTextTheme();
     return TextTheme(
       displayLarge: titres.displayLarge!.copyWith(
