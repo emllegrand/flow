@@ -1,8 +1,11 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 /// Mixeur audio de Flow, branché sur `audio_service` pour continuer
 /// la lecture en arrière-plan (service de premier plan Android).
@@ -168,6 +171,32 @@ class MixeurAudioHandler extends BaseAudioHandler {
         speed: _lecteurSeance.speed,
       ),
     );
+  }
+}
+
+/// Rafraîchit le cache d'assets audio de just_audio (à appeler dans `main`,
+/// avant toute lecture).
+///
+/// just_audio copie chaque asset audio dans le cache de l'appareil à la
+/// première lecture, et ne réécrit jamais un fichier déjà présent : un
+/// asset modifié continuerait donc de jouer son ancienne version. On vide
+/// ce cache à chaque lancement en debug (les assets changent au gré des
+/// builds), et au premier lancement d'une nouvelle version en release.
+Future<void> rafraichirCacheAudio(Box<dynamic> reglages) async {
+  const String cle = 'version_cache_audio';
+  try {
+    if (kDebugMode) {
+      await AudioPlayer.clearAssetCache();
+      return;
+    }
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    final String version = '${info.version}+${info.buildNumber}';
+    if (reglages.get(cle) != version) {
+      await AudioPlayer.clearAssetCache();
+      await reglages.put(cle, version);
+    }
+  } catch (_) {
+    // Au pire, le cache existant est réutilisé tel quel.
   }
 }
 

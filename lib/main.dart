@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/services/mixeur_audio.dart';
@@ -21,6 +22,8 @@ Future<void> main() async {
   // en français, audio en arrière-plan, notifications.
   await StockageService.initialiser();
   await initializeDateFormatting('fr_FR');
+  // Les assets audio modifiés doivent remplacer leur copie en cache.
+  await rafraichirCacheAudio(Hive.box<dynamic>(StockageService.boxReglages));
   final MixeurAudioHandler mixeur = await initialiserAudio();
   final NotificationsService notifications = NotificationsService();
   await notifications.initialiser();
